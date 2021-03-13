@@ -4,15 +4,17 @@ const HtmlWebpackplugin = require('html-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 module.exports= {
-    mode:"development",
-    watch: true,  
     entry: './src/index.js',
     output:{
         path: path.resolve(__dirname, 'dist'),
         filename: "[name][contenthash].js",
         assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
+    mode:"development",
+    devtool:'source-map',
+   
     resolve:{
         //aca va los frameworks ejemplo svelte react
         extensions: ['.js'],
@@ -86,6 +88,14 @@ module.exports= {
             ]
         }),
         new Dotenv(),
+        // new BundleAnalyzerPlugin(),
     ],
+    devServer:{
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        historyApiFallback:true,
+        port: 8080,
+        open:true,
+    }
    
 }
